@@ -16,7 +16,8 @@ body {
 .b-calendar {
     display: flex;
     align-items: center;
-    margin: 2.5em 0;
+    margin: 2.5em auto;
+    max-width: 70rem;
     &__information {
         background-color: #535c68;
         border-radius: 1.2rem 0 0 1.2rem;
@@ -25,7 +26,7 @@ body {
         padding-left: 0.9rem;
         padding-right: 0.9rem;
         .selected-date {
-            padding-top: 3em;
+            padding-top: 3rem;
             padding-left: 2.5rem;
             position: relative;
             &:before {
@@ -53,76 +54,13 @@ body {
                 line-height: 1;
             }
         }
-        .event-container {
-            margin-top: 2rem;
-            .create-event-form {
-                margin-bottom: 1rem;
-                .event-title-input {
-                    margin-right: 0.25rem;
-                    width: calc(100% - 2.7rem);
-                }
-            }
-            .btn-group {
-                width: 100%;
-                display: flex;
-                justify-content: center;
-                margin-bottom: 1rem;
-                .btn {
-                    width: 33.33%;
-                }
-            }
-            .event-list {
-                list-style: none;
-                padding: 0;
-                margin-left: -0.9rem;
-                margin-right: -0.9rem;
-                max-height: 20rem;
-                overflow-y: auto;
-                .event {
-                    background-color: rgba(255, 255, 255, 0.1);
-                    display: flex;
-                    align-items: center;
-                    justify-content: space-between;
-                    padding: 0.5rem 0.9rem;
-                    margin-bottom: 0.5rem;
-                    &.completed {
-                        background-color: rgba(255, 255, 255, 0.2);
-                        .title {
-                            opacity: 0.5;
-                            &:before {
-                                content: "";
-                                position: absolute;
-                                top: 50%;
-                                left: -0.5rem;
-                                display: block;
-                                width: 0%;
-                                height: 1px;
-                                background: #fff;
-                                animation: strikeitem 0.3s ease-out 0s forwards;
-                            }
-                        }
-                    }
-                    .title {
-                        position: relative;
-                    }
-                    .btn {
-                        background: transparent;
-                        border: none;
-                        color: #fff;
-                        font-size: 1.2em;
-                        padding: 0;
-                        height: 1.75rem;
-                        width: 1.75rem;
-                    }
-                }
-            }
-            .no-events {
-                margin-top: 1.5rem;
-            }
+        .go-today-link {
+            display: none;
         }
     }
     &__calendar {
         min-height: 40rem;
+        padding-right: 0.9rem;
     }
     &__header {
         margin-bottom: 2rem;
@@ -219,7 +157,86 @@ body {
                     font-size: 0.75em;
                 }
             }
+            .event-mobile-container {
+                display: none;
+            }
         }
+    }
+}
+
+.b-event-container {
+    margin-top: 2rem;
+    .create-event-form {
+        margin-bottom: 1rem;
+        .event-title-input {
+            margin-right: 0.25rem;
+            width: calc(100% - 2.7rem);
+        }
+    }
+    .btn-group {
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        margin-bottom: 1rem;
+        .btn {
+            width: 33.33%;
+        }
+    }
+    .event-list {
+        list-style: none;
+        padding: 0;
+        margin-left: -0.9rem;
+        margin-right: -0.9rem;
+        max-height: 20rem;
+        overflow-y: auto;
+        .event {
+            background-color: rgba(255, 255, 255, 0.1);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0.5rem 0.9rem;
+            margin-bottom: 0.5rem;
+            &.completed {
+                background-color: rgba(255, 255, 255, 0.2);
+                .title {
+                    opacity: 0.5;
+                    &:before {
+                        content: "";
+                        position: absolute;
+                        top: 50%;
+                        left: -0.5rem;
+                        display: block;
+                        width: 0%;
+                        height: 1px;
+                        background: #fff;
+                        animation: strikeitem 0.3s ease-out 0s forwards;
+                    }
+                }
+            }
+            .title {
+                position: relative;
+                max-width: calc(100% - 4rem);
+                white-space: nowrap;
+                overflow: hidden;
+                text-overflow: ellipsis;
+            }
+            .buttons {
+                display: flex;
+                .btn {
+                    background: transparent;
+                    border: none;
+                    color: #fff;
+                    font-size: 1.2em;
+                    padding: 0;
+                    height: 1.75rem;
+                    width: 1.75rem;
+                    box-shadow: none;
+                }
+            }
+        }
+    }
+    .no-events {
+        margin-top: 1.5rem;
     }
 }
 
@@ -229,14 +246,19 @@ body {
     }
 }
 
-@media (max-width: 768px) {
-    .b-calendar__information {
-        min-height: auto;
-        padding-top: 2rem;
-        padding-bottom: 2rem;
-        border-radius: 2.5rem 2.5rem 0 0;
-        .today {
-            padding-top: 0;
+@media (max-width: 991.98px) {
+    .b-calendar {
+        &__calendar {
+            padding: 0;
+        }
+        &__information {
+            border-radius: 2rem 2rem 0 0;
+            padding-top: 2rem;
+            padding-bottom: 2rem;
+            min-height: auto;
+            .today {
+                padding-top: 0;
+            }
         }
     }
 }
@@ -245,6 +267,35 @@ body {
     .b-calendar {
         &__weekdays {
             display: none;
+        }
+        &__information {
+            .selected-date {
+                padding-top: 2rem;
+                padding-bottom: 1rem;
+                padding-left: 2.5rem;
+                &:before {
+                    top: 3rem;
+                }
+            }
+            .b-event-container {
+                display: none;
+            }
+            .go-today-link {
+                display: block;
+                color: #fff;
+            }
+        }
+        &__header {
+            .go-today-btn {
+                display: none;
+            }
+            .month-change-container {
+                width: 100%;
+                min-width: 100%;
+            }
+            .month {
+                width: 100%;
+            }
         }
         &__dates {
             .date {
@@ -259,6 +310,23 @@ body {
                 .weekday {
                     display: block;
                     margin-left: 0.25rem;
+                }
+                .event-mobile-container {
+                    background: #535c68;
+                    display: block;
+                    position: absolute;
+                    margin-top: 0;
+                    top: 100%;
+                    left: 0;
+                    right: 0;
+                    padding: 2rem 0.5rem;
+                    z-index: 10;
+                    &.collapse {
+                        display: none !important;
+                    }
+                    &.show {
+                        display: block !important;
+                    }
                 }
             }
         }
