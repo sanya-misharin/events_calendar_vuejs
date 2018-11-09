@@ -41,6 +41,38 @@ var filters = {
     }
 };
 
+Vue.component("create-event-form", {
+    template: `<b-form class="create-event-form" @submit="onSubmit" inline>
+        <input class="form-control event-title-input" type="text" autocomplete="off"
+           placeholder="New event title..." v-model="eventTitle"
+           @keyup.enter="createEvent" @input="updateInParent">
+        </input>
+        <b-button id="addEventBtn" variant="outline-light" @click="createEvent">
+            <i class="fa fa-plus" aria-hidden="true"></i>
+        </b-button>
+        <b-tooltip target="addEventBtn">
+            Add new event
+        </b-tooltip>
+    </b-form>`,
+    data: function() {
+        return {
+            eventTitle: ""
+        };
+    },
+    methods: {
+        //disable form submitting
+        onSubmit: function(event) {
+            event.preventDefault();
+        },
+        createEvent: function() {
+            this.$emit("create", true);
+        },
+        updateInParent: function() {
+            this.$emit('update', this.eventTitle);
+        },
+    }
+});
+
 new Vue({
     el: "#app",
     data: {
@@ -284,8 +316,7 @@ new Vue({
         //get selected day and month
         todayInCurrentMonthAndYear: function() {
             return (
-                this.month === this.todayMonth &&
-                this.year === this.todayYear
+                this.month === this.todayMonth && this.year === this.todayYear
             );
         },
 
@@ -369,15 +400,12 @@ new Vue({
             return this.days[index];
         },
 
-
-
         //events
 
         //disable form submitting
         onSubmit: function(event) {
             event.preventDefault();
         },
-
         //adding event
         createEvent: function() {
             let eventTitle =
@@ -400,7 +428,7 @@ new Vue({
         },
 
         deleteEvent: function(event) {
-            let index = this.eventList.indexOf(event)
+            let index = this.eventList.indexOf(event);
             this.eventList.splice(index, 1);
         },
 

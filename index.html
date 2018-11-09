@@ -29,18 +29,7 @@
                         </div>
                         <div class="b-event-container">
                             <h4>Events:</h4>
-                            <b-form class="create-event-form" @submit="onSubmit" inline>
-                                <input class="form-control event-title-input" type="text" autocomplete="off"
-                                       placeholder="New event title..." v-model="newEventForm.eventTitle"
-                                       @keyup.enter="createEvent">
-                                </input>
-                                <b-button id="addEventBtn" variant="outline-light" @click="createEvent">
-                                    <i class="fa fa-plus" aria-hidden="true"></i>
-                                </b-button>
-                                <b-tooltip target="addEventBtn">
-                                    Add new event
-                                </b-tooltip>
-                            </b-form>
+                            <create-event-form v-on:create="createEvent" v-on:update="newEventForm.eventTitle = $event"></create-event-form>
                             <b-button-group size="sm">
                                 <b-button variant="outline-light" :class="{active: visibility === 'all'}"
                                           @click="changeVisibility('all')">All
@@ -141,20 +130,9 @@
                                     <span class="year" v-show="date.additional.year">{{date.additional.year}}</span>
                                     <span class="month" v-show="date.additional.month">{{date.additional.month}}</span>
                                 </div>
-                                <b-collapse class="b-event-container event-mobile-container" :class="{'show': selectedDate.format('YYYYMMDD') === date.moment.format('YYYYMMDD')}">
+                                <b-collapse :id="'collapseEvent' + date.key" class="b-event-container event-mobile-container" :class="{'show': selectedDate.format('YYYYMMDD') === date.moment.format('YYYYMMDD')}">
                                     <h4>Events:</h4>
-                                    <b-form class="create-event-form" @submit="onSubmit" inline>
-                                        <input class="form-control event-title-input" type="text" autocomplete="off"
-                                               placeholder="New event title..." v-model="newEventForm.eventTitle"
-                                               @keyup.enter="createEvent">
-                                        </input>
-                                        <b-button id="addEventBtn" variant="outline-light" @click="createEvent">
-                                            <i class="fa fa-plus" aria-hidden="true"></i>
-                                        </b-button>
-                                        <b-tooltip target="addEventBtn">
-                                            Add new event
-                                        </b-tooltip>
-                                    </b-form>
+                                    <create-event-form v-on:create="createEvent" v-on:update="newEventForm.eventTitle = $event"></create-event-form>
                                     <b-button-group size="sm">
                                         <b-button variant="outline-light" :class="{active: visibility === 'all'}"
                                                   @click="changeVisibility('all')">All
