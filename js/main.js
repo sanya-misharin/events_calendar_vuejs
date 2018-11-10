@@ -56,7 +56,7 @@ Vue.component("create-event-form", {
     </b-form>`,
     data: function() {
         return {
-            eventTitle: ""
+            eventTitle: ''
         };
     },
     methods: {
@@ -66,6 +66,7 @@ Vue.component("create-event-form", {
         },
         createEvent: function() {
             this.$emit("create", true);
+            this.eventTitle = '';
         },
         updateInParent: function() {
             this.$emit("update", this.eventTitle);
