@@ -68,8 +68,8 @@ Vue.component("create-event-form", {
             this.$emit("create", true);
         },
         updateInParent: function() {
-            this.$emit('update', this.eventTitle);
-        },
+            this.$emit("update", this.eventTitle);
+        }
     }
 });
 
@@ -86,7 +86,9 @@ new Vue({
             eventTitle: ""
         },
         eventList: eventStorage.fetch(),
-        visibility: VISIBILITY_ALL
+        visibility: VISIBILITY_ALL,
+        windowWidth: window.outerWidth,
+        collapseEventList: true
     },
     watch: {
         eventList: {
@@ -376,7 +378,15 @@ new Vue({
 
         //changing selected date
         setSelectedDate: function(moment) {
-            this.selectedDate = moment;
+            if (
+                this.selectedDate.format("YYYYMMDD") !==
+                moment.format("YYYYMMDD")
+            ) {
+                this.selectedDate = moment;
+                this.collapseEventList = false;
+            } else {
+                this.collapseEventList = !this.collapseEventList;
+            }
         },
 
         //set selected date as today
@@ -398,6 +408,14 @@ new Vue({
             }
             index = index === 0 ? 6 : index - 1;
             return this.days[index];
+        },
+
+        //selected date compare with date
+        dateIsEqualSelectDate: function(date) {
+            return (
+                this.selectedDate.format("YYYYMMDD") ===
+                date.moment.format("YYYYMMDD")
+            );
         },
 
         //events
@@ -446,5 +464,12 @@ new Vue({
             value = value.toString();
             return value.charAt(0).toUpperCase() + value.slice(1);
         }
+    },
+    mounted() {
+        this.$nextTick(() => {
+            window.addEventListener("resize", () => {
+                this.windowWidth = window.innerWidth;
+            });
+        });
     }
 });

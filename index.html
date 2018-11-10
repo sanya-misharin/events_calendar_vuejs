@@ -27,27 +27,27 @@
                             <span class="day">{{selectedDayAndMonth.day}}</span>
                             <span class="month">{{selectedDayAndMonth.month | capitalize}}</span>
                         </div>
-                        <div class="b-event-container">
+                        <div class="b-event-container" v-if="windowWidth > 480">
                             <h4>Events:</h4>
                             <create-event-form v-on:create="createEvent" v-on:update="newEventForm.eventTitle = $event"></create-event-form>
                             <b-button-group size="sm">
-                                <b-button variant="outline-light" :class="{active: visibility === 'all'}"
+                                <b-button variant="outline-light" :class="{'active': visibility === 'all'}"
                                           @click="changeVisibility('all')">All
                                 </b-button>
-                                <b-button variant="outline-light" :class="{active: visibility === 'completed'}"
+                                <b-button variant="outline-light" :class="{'active': visibility === 'completed'}"
                                           @click="changeVisibility('completed')">Completed
                                 </b-button>
-                                <b-button variant="outline-light" :class="{active: visibility === 'active'}"
+                                <b-button variant="outline-light" :class="{'active': visibility === 'active'}"
                                           @click="changeVisibility('active')">Active
                                 </b-button>
                             </b-button-group>
                             <transition-group name="event-list" tag="ul" class="event-list"
                                               v-if="filteredEventListForSelectedDate.length > 0">
-                                <li class="event" :class="{completed: event.completed}"
+                                <li class="event" :class="{'completed': event.completed}"
                                     v-for="event in filteredEventListForSelectedDate" :key="event.id">
                                     <span class="title">{{event.title}}</span>
                                     <div class="buttons">
-                                        <b-button class="completed-event-btn" :class="{completed: event.completed}"
+                                        <b-button class="completed-event-btn" :class="{'completed': event.completed}"
                                                   @click="changeCompletedEvent(event)">
                                             <i class="fa" :class="event.completed ? 'fa-check-square' : 'fa-square-o'"
                                                aria-hidden="true"></i>
@@ -117,7 +117,7 @@
                         </div>
                         <div class="b-calendar__dates">
                             <div class="date text-right" :class="{
-                                    'selected': selectedDate.format('YYYYMMDD') === date.moment.format('YYYYMMDD'),
+                                    'selected': dateIsEqualSelectDate(date),
                                     'today': date.today,
                                     'blank': date.blank,
                                     'no-border-right': date.key % 7 === 0
@@ -130,28 +130,31 @@
                                     <span class="year" v-show="date.additional.year">{{date.additional.year}}</span>
                                     <span class="month" v-show="date.additional.month">{{date.additional.month}}</span>
                                 </div>
-                                <b-collapse :id="'collapseEvent' + date.key" class="b-event-container event-mobile-container" :class="{'show': selectedDate.format('YYYYMMDD') === date.moment.format('YYYYMMDD')}">
+                                <b-collapse :id="'collapseEvent' + date.key" 
+                                class="b-event-container event-mobile-container"
+                                :class="{'show': !collapseEventList}"
+                                v-if="((windowWidth <= 480) && dateIsEqualSelectDate(date))">
                                     <h4>Events:</h4>
                                     <create-event-form v-on:create="createEvent" v-on:update="newEventForm.eventTitle = $event"></create-event-form>
                                     <b-button-group size="sm">
-                                        <b-button variant="outline-light" :class="{active: visibility === 'all'}"
+                                        <b-button variant="outline-light" :class="{'active': visibility === 'all'}"
                                                   @click="changeVisibility('all')">All
                                         </b-button>
-                                        <b-button variant="outline-light" :class="{active: visibility === 'completed'}"
+                                        <b-button variant="outline-light" :class="{'active': visibility === 'completed'}"
                                                   @click="changeVisibility('completed')">Completed
                                         </b-button>
-                                        <b-button variant="outline-light" :class="{active: visibility === 'active'}"
+                                        <b-button variant="outline-light" :class="{'active': visibility === 'active'}"
                                                   @click="changeVisibility('active')">Active
                                         </b-button>
                                     </b-button-group>
                                     <transition-group name="event-list" tag="ul" class="event-list"
                                                       v-if="filteredEventListForSelectedDate.length > 0">
-                                        <li class="event" :class="{completed: event.completed}"
+                                        <li class="event" :class="{'completed': event.completed}"
                                             v-for="event in filteredEventListForSelectedDate" :key="event.id">
                                             <span class="title">{{event.title}}</span>
                                             <div class="buttons">
                                                 <b-button class="completed-event-btn"
-                                                          :class="{completed: event.completed}"
+                                                          :class="{'completed': event.completed}"
                                                           @click="changeCompletedEvent(event)">
                                                     <i class="fa"
                                                        :class="event.completed ? 'fa-check-square' : 'fa-square-o'"
