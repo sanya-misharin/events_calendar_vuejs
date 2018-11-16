@@ -144,6 +144,15 @@ body {
                 background-color: #f0932b;
                 color: #fff;
             }
+            .link {
+                cursor: pointer;
+                position: absolute;
+                top: 0.05rem;
+                left: 0.05rem;
+                bottom: 0.05rem;
+                right: 0.05rem;
+                z-index: 1;
+            }
             .weekday {
                 display: none;
             }

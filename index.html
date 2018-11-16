@@ -122,8 +122,8 @@
                                     'blank': date.blank,
                                     'no-border-right': date.key % 7 === 0
                                 }"
-                                 v-for="date in dateList" :key="date.key" :data-date="date.date"
-                                 @click="setSelectedDate(date.moment)">
+                                 v-for="date in dateList" :key="date.key" :data-date="date.date">
+                                <a class="link" @click="setSelectedDate(date.moment)"></a>
                                 <span class="day">{{date.dayNumber}}</span>
                                 <span class="weekday">{{date.weekDay}}</span>
                                 <div class="additional" v-show="date.additional">

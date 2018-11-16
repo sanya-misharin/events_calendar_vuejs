@@ -179,6 +179,16 @@ body {
   color: #fff;
 }
 
+.b-calendar__dates .date .link {
+  cursor: pointer;
+  position: absolute;
+  top: 0.05rem;
+  left: 0.05rem;
+  bottom: 0.05rem;
+  right: 0.05rem;
+  z-index: 1;
+}
+
 .b-calendar__dates .date .weekday {
   display: none;
 }
